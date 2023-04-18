@@ -27,7 +27,7 @@ public class StudentDbUtil {
         dataSource = theDataSource;
     }
     
-    public List<Student> getStudents() throws Exception 
+    public List<Student> getStudents(int start,int total) throws Exception 
     {
         List<Student> students=new ArrayList<>();
         
@@ -41,7 +41,7 @@ public class StudentDbUtil {
         myConn=dataSource.getConnection();
         
         //Create SQL Statement
-        String sql="select*from student order by last_name";
+        String sql=("select*from student limit "+(start-1)+','+total);
         
         myStmt=myConn.createStatement();
         

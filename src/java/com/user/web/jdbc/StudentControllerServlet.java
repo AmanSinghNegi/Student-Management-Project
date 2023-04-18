@@ -6,6 +6,7 @@ package com.user.web.jdbc;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import static java.lang.System.out;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -91,15 +92,54 @@ public class StudentControllerServlet extends HttpServlet {
     private void listStudents(HttpServletRequest request, HttpServletResponse response) throws Exception {
         
         //Get Students From DbUtil
-       List<Student> students=studentDbUtil.getStudents();
+//       List<Student> students=studentDbUtil.getStudents();
        
        //Add Students To The Request
-       request.setAttribute("Student_List", students);
+//       request.setAttribute("Student_List", students);
+//       
+//       //Send Request To The JSP (VIEW)
+//       RequestDispatcher dispatcher =request.getRequestDispatcher("/list-students.jsp");
+//       dispatcher.forward(request, response);
+       
+            PrintWriter out=response.getWriter();
+//            
+                int sPageid=1;
+                if(request.getParameter("page")!=null)
+            sPageid=Integer.parseInt(request.getParameter("page"));
+//            out.print("page:"+sPageid);
+            int total=5;
+ 
+            if(sPageid==1){}
+            else{
+                sPageid=sPageid-1;
+                sPageid=sPageid*total+1;
+            }
+//            
+            List<Student> list=studentDbUtil.getStudents(sPageid,total);
+//           out.print(pageId);
+//            out.print("<h1>Page No."+sPageid+"</h1>");
+//            out.print("<table border='1' cellpadding='4' width='60%'>");
+//            
+//            out.print("<tr><th>Id</th><th>First_Name</th><th>Last_Name</th><th>Email</th>");
+//            for(Student s:list)
+//            {
+//                out.print("<tr><td>"+s.getId()
+//                        +"</td><td>"+s.getFirstName()
+//                                +"</td><td>"+s.getLastName()
+//                                +"</td><td>"+s.getEmail()+"</td></tr>");
+//            }
+//            out.print("</table>");
+//            
+//                        out.print("<a href='StudentControllerServlet?page=1'>1</a>");
+//                        out.print("<a href='StudentControllerServlet?page=2'>2</a>");
+//                       out.print("<a href='StudentControllerServlet?page=3'>3</a>");
+            
+//            Add Students To The Request
+       request.setAttribute("Student_List", list);
        
        //Send Request To The JSP (VIEW)
        RequestDispatcher dispatcher =request.getRequestDispatcher("/list-students.jsp");
        dispatcher.forward(request, response);
-       
     }   
 
     private void addStudents(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -114,8 +154,7 @@ public class StudentControllerServlet extends HttpServlet {
                  studentDbUtil.addStudents(theStudent);
                  
                  listStudents(request,response);
-                
-                
+                               
     }
 
     private void loadStudents(HttpServletRequest request, HttpServletResponse response) throws Exception{

@@ -69,7 +69,12 @@
 				</c:forEach>
 				
 			</table>
-		
+                        
+                        <a href="StudentControllerServlet?page=1">1</a>
+                        <a href="StudentControllerServlet?page=2">2</a>
+                        <a href="StudentControllerServlet?page=3">3</a>
+
+                      
 		</div>
 	
 	</div>
